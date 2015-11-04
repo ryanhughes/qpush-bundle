@@ -27,17 +27,17 @@ namespace Uecode\Bundle\QPushBundle\Tests\MockClient;
  *
  * @author Keith Kirk <kkirk@undergroundelephant.com>
  */
-class AwsMockClient extends \Aws\Common\Aws
+class AwsMockClient extends \Aws\Sdk
 {
-    public function get($name, $throwAway = false)
+    public function __call($name, array $args)
     {
-        if (!in_array($name, ['Sns', 'Sqs'])) {
+        if (!in_array($name, ['createSns', 'createSqs'])) {
             throw new \InvalidArgumentException(
                 sprintf('Only supports Sns and Sqs as options, %s given.', $name)
             );
         }
 
-        if ($name == "Sns") {
+        if ($name == "createSns") {
             return new SnsMockClient;
         }
 

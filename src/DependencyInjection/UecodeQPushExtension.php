@@ -136,22 +136,23 @@ class UecodeQPushExtension extends Extension
 
         if (!$container->hasDefinition($service)) {
 
-            if (!class_exists('Aws\Common\Aws')) {
+            if (!class_exists('Aws\Sdk')) {
                 throw new \RuntimeException(
                     'You must require "aws/aws-sdk-php" to use the AWS provider.'
                 );
             }
 
-            $awsConfig = [];
+            $awsConfig = [
+                'region' => $config['region'],
+                'version' => 'latest'
+            ];
+
             if (!empty($config['key']) && !empty($config['secret'])) {
-                $awsConfig['key'] = $config['key'];
-                $awsConfig['secret'] = $config['secret'];
+                $awsConfig['credentials']['key'] = $config['key'];
+                $awsConfig['credentials']['secret'] = $config['secret'];
             }
 
-            $awsConfig['region'] = $config['region'];
-
-            $aws = new Definition('Aws\Common\Aws');
-            $aws->setFactory(['Aws\Common\Aws', 'factory']);
+            $aws = new Definition('Aws\Sdk');
             $aws->setArguments([$awsConfig]);
 
             $container->setDefinition($service, $aws)

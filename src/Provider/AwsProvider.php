@@ -22,7 +22,7 @@
 
 namespace Uecode\Bundle\QPushBundle\Provider;
 
-use Aws\Common\Aws;
+use Aws\Sdk;
 use Aws\Sns\SnsClient;
 use Aws\Sqs\SqsClient;
 use Aws\Sqs\Exception\SqsException;
@@ -71,8 +71,8 @@ class AwsProvider extends AbstractProvider
     {
         $this->name     = $name;
         $this->options  = $options;
-        $this->sqs      = $client->get('Sqs');
-        $this->sns      = $client->get('Sns');
+        $this->sqs      = $client->createSqs();
+        $this->sns      = $client->createSns();
         $this->cache    = $cache;
         $this->logger   = $logger;
     }

@@ -43,15 +43,6 @@ class MessageEventTest extends \PHPUnit_Framework_TestCase
         $this->event = null;
     }
 
-    public function testMessageEventConstructor()
-    {
-        $event = new MessageEvent('test', new Message(123, ['foo' => 'bar'], ['bar' => 'baz']));
-        $this->assertInstanceOf('Uecode\Bundle\QPushBundle\Event\MessageEvent', $event);
-
-        $this->setExpectedException('PHPUnit_Framework_Error');
-        $event = new MessageEvent('test', ['bad argument']);
-    }
-
     public function testGetQueueName()
     {
         $name = $this->event->getQueueName();
